@@ -1,7 +1,7 @@
-import { Injectable, RequestTimeoutException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 //import { UpdateUserDto } from './dto/update-user.dto';
-import { RegisteredUserResponse } from 'src/interfaces/user';
+import { RegisteredUserResponse } from 'src/constants/interfaces/User';
 
 import { User } from './entities/user.entity';
 import hashPassword from 'src/utils/hashPassword';

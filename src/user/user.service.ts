@@ -5,34 +5,30 @@ import { RegisteredUserResponse } from 'src/constants/interfaces/User';
 
 import { User } from './entities/user.entity';
 import hashPassword from 'src/utils/hashPassword';
-import { HttpService } from '@nestjs/axios';
 
-import { tap } from 'rxjs/operators';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class UserService {
-  constructor(private httpService: HttpService) {}
+  filter(user: User): RegisteredUserResponse {
+    const { username, email } = user;
+    return { username, email };
+  }
+  constructor(
+    @InjectModel(User.name)
+    private UserModel: Model<User>,
+  ) {}
   async create(createUserDto: CreateUserDto): Promise<RegisteredUserResponse> {
     const { email, password, username } = createUserDto;
-    const user = new User();
-    user.email = email;
-    user.username = username;
-    user.password = hashPassword(password);
-    const response = await this.httpService
-      .post(`${process.env.FIREBASE_DB}/users.json`, user)
-      .pipe(tap((data) => data))
-      .toPromise();
-    //   await fetch(process.env.FIREBASE_DB, {
-    //   method: 'POST',
-    //   body: JSON.stringify(user),
-    //   headers: { 'Content-Type': 'application/json' },
-    // });
+    const hashedPassword = hashPassword(password);
+    const user = await this.UserModel.create({
+      email,
+      username,
+      password: hashedPassword,
+    });
 
-    return response.config.data;
-  }
-
-  findAll() {
-    return `This action returns all user`;
+    return this.filter(user);
   }
 
   findOne(id: number) {

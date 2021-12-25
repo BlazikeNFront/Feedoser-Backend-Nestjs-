@@ -1,3 +1,4 @@
+import { UnauthorizedException } from '@nestjs/common';
 import { CreateTankDto } from './dto/CreateTankDto';
 
 export class TankService {
@@ -7,6 +8,10 @@ export class TankService {
 
   findOne(id: number) {
     console.log(id);
+    throw new UnauthorizedException();
+  }
+  findAll() {
+    console.log('find');
   }
 }
 

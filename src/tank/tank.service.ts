@@ -1,44 +1,27 @@
-import { UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateTankDto } from './dto/CreateTankDto';
-
+import { InjectModel } from '@nestjs/mongoose';
+import { Tank } from './entities/tank.entity';
+import { Model } from 'mongoose';
+@Injectable()
 export class TankService {
-  create(createTankDto: CreateTankDto) {
-    console.log(createTankDto);
+  constructor(
+    @InjectModel(Tank.name)
+    private TankModel: Model<Tank>,
+  ) {}
+  async create(userId: string, createTankDto: CreateTankDto) {
+    const saveAction = await this.TankModel.create({
+      userId,
+      ...createTankDto,
+    });
+    return { id: saveAction._id };
   }
 
-  findOne(id: number) {
-    console.log(id);
-    throw new UnauthorizedException();
+  async findOne(userId: string, tankId: string): Promise<Tank[]> {
+    const tank = await this.TankModel.find({ userId, id: tankId }).exec();
+    return tank;
   }
   findAll() {
     console.log('find');
   }
 }
-
-// import { Injectable } from '@nestjs/common';
-// import { CreateTestDto } from './dto/create-test.dto';
-// import { UpdateTestDto } from './dto/update-test.dto';
-
-// @Injectable()
-// export class TestService {
-//   create(createTestDto: CreateTestDto) {
-//     return 'This action adds a new test';
-//   }
-
-//   findAll() {
-//     return `This action returns all test`;
-//   }
-
-//   findOne(id: number) {
-//     return `This action returns a #${id} test`;
-//   }
-
-//   update(id: number, updateTestDto: UpdateTestDto) {
-//     return `This action updates a #${id} test`;
-//   }
-
-//   remove(id: number) {
-//     return `This action removes a #${id} test`;
-//   }
-// }
-// //

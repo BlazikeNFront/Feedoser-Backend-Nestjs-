@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AuthLoginDto } from './dto/auth-login.dto';
 
 import { Response } from 'express';
@@ -28,7 +28,7 @@ export class AuthService {
         username: req.username,
         password: hashPassword(req.password),
       }).exec();
-      if (!user) return res.json({ error: 'Invalid login data!' });
+      if (!user) return res.status(401).json({ error: 'Invalid login data!' });
       else {
         const token = await this.createToken(user.id);
         return res
@@ -42,5 +42,14 @@ export class AuthService {
     } catch (error) {
       return res.json({ error: error.message });
     }
+  }
+  async logout(res: Response) {
+    return res
+      .cookie('token', null, {
+        secure: false,
+        domain: 'localhost',
+        httpOnly: true,
+      })
+      .json({ ok: true });
   }
 }

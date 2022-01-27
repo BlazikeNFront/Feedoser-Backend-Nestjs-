@@ -5,7 +5,9 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { TankModule } from './tank/tank.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthModule } from './auth/auth.module';
+import { TankLivestockInformationModule } from './tank-livestock-information/tank-livestock-information.module';
+import { TankFeedInformationModule } from './tank-feed-information/tank-feed-information.module';
+import { TankAnnotationsModule } from './tank-annotations/tank-annotations.module';
 
 @Module({
   imports: [
@@ -13,7 +15,9 @@ import { AuthModule } from './auth/auth.module';
     MongooseModule.forRoot(process.env.MONGO_DB),
     UserModule,
     TankModule,
-    AuthModule,
+    TankLivestockInformationModule,
+    TankFeedInformationModule,
+    TankAnnotationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

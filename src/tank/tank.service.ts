@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTankDto } from './dto/CreateTankDto';
+import { CreateTankDto } from './dto/CreateTank.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Tank } from './entities/tank.entity';
 import { Model } from 'mongoose';
+import { UpdateMainTankInformationDto } from './dto/UpdateTank.dto';
 @Injectable()
 export class TankService {
   constructor(
@@ -17,11 +18,23 @@ export class TankService {
     return { id: saveAction._id };
   }
 
-  async findOne(userId: string, tankId: string): Promise<Tank[]> {
-    const tank = await this.TankModel.find({ userId, id: tankId }).exec();
-    return tank;
+  async findOne(id: string): Promise<Tank[]> {
+    return await this.TankModel.find({ id }).exec();
   }
-  findAll() {
-    console.log('find');
+  async update(
+    id: string,
+    UpdateMainTankInformationDto: UpdateMainTankInformationDto,
+  ) {
+    await this.TankModel.findByIdAndUpdate(id, {
+      mainTankInformation: UpdateMainTankInformationDto,
+    });
+  }
+  async delete(id: string) {
+    await this.TankModel.findByIdAndRemove(id);
+  }
+  async findAll(userId: string, page = 1) {
+    return await this.TankModel.find({ userId })
+      .limit(10)
+      .skip(page - 1);
   }
 }

@@ -1,9 +1,9 @@
-export class LivestockInformation {
+export interface LivestockInformation {
   livestock: SingleLivestockSpecie[];
   totalWeight: number;
 }
 
-export class SingleLivestockSpecie {
+export interface SingleLivestockSpecie {
   name: string;
   weight: number;
   meanWeight: number;

@@ -3,7 +3,8 @@ import { CreateTankDto } from './dto/CreateTank.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Tank } from './entities/tank.entity';
 import { Model } from 'mongoose';
-import { UpdateMainTankInformationDto } from './dto/UpdateTank.dto';
+import { MainTankInformationDTO } from './dto/UpdateMainTankInformation.dto';
+
 @Injectable()
 export class TankService {
   constructor(
@@ -23,10 +24,14 @@ export class TankService {
   }
   async update(
     id: string,
-    UpdateMainTankInformationDto: UpdateMainTankInformationDto,
+    MainTankInformationDTO: Partial<MainTankInformationDTO>,
   ) {
     await this.TankModel.findByIdAndUpdate(id, {
-      mainTankInformation: UpdateMainTankInformationDto,
+      $set: {
+        'mainTankInformation.volume': MainTankInformationDTO.volume,
+        'mainTankInformation.name': MainTankInformationDTO.name,
+        'mainTankInformation.description': MainTankInformationDTO.description,
+      },
     });
   }
   async delete(id: string) {

@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-//import { UpdateUserDto } from './dto/update-user.dto';
+import { Response } from 'express';
 import { RegisteredUserResponse } from 'src/constants/interfaces/User';
 import { User } from './entities/user.entity';
 import hashPassword from 'src/utils/hashPassword';
@@ -9,7 +9,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AuthCredentialsDto } from './dto/AuthCredential.dto';
 import { JwtService } from '@nestjs/jwt';
-
+import * as dotenv from 'dotenv';
+dotenv.config();
 @Injectable()
 export class UserService {
   filter(user: User): RegisteredUserResponse {
@@ -32,16 +33,29 @@ export class UserService {
 
     return this.filter(user);
   }
-  async signIn(authCredential: AuthCredentialsDto): Promise<{ token: string }> {
-    const { username, password } = authCredential;
-    const user = await this.UserModel.findOne({
-      username,
-      password: hashPassword(password),
-    }).exec();
-    if (!user) throw new UnauthorizedException('Invalid login credentials');
-    const payload: JwtPayload = { username };
-    const token = await this.jwtService.sign(payload);
-    return { token };
+  async signIn(
+    authCredential: AuthCredentialsDto,
+    res: Response,
+  ): Promise<any> {
+    try {
+      const { username, password } = authCredential;
+      const user = await this.UserModel.findOne({
+        username,
+        password: hashPassword(password),
+      }).exec();
+      if (!user) throw new UnauthorizedException('Invalid login credentials');
+      const payload: JwtPayload = { username };
+      const token = await this.jwtService.sign(payload);
+      return res
+        .cookie('jwt', token, {
+          secure: false,
+          domain: 'localhost',
+          httpOnly: true,
+        })
+        .json({ ok: true });
+    } catch (e) {
+      return res.json({ error: e.message });
+    }
   }
   findOne(id: number) {
     return `This action returns a #${id} user`;

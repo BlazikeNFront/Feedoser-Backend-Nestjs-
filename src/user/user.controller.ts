@@ -1,4 +1,5 @@
-import { Controller, Post, Body, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Param, Delete, Res } from '@nestjs/common';
+import { Response } from 'express';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { AuthCredentialsDto } from './dto/AuthCredential.dto';
@@ -13,14 +14,11 @@ export class UserController {
   }
   @Post('/signIn')
   signIn(
-    @Body() authCredentialsDto: AuthCredentialsDto,
-  ): Promise<{ token: string }> {
-    return this.userService.signIn(authCredentialsDto);
+    @Body() authCredential: AuthCredentialsDto,
+    @Res() res: Response,
+  ): Promise<any> {
+    return this.userService.signIn(authCredential, res);
   }
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.userService.update(+id, updateUserDto);
-  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

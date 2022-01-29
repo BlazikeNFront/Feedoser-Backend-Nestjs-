@@ -1,23 +1,12 @@
-import { FeedProgramUpdateFrequency } from '../enums/FeedProgramUpdateFrequency';
-import { TypesOfFeedProgram } from '../enums/TypesOfFeedProgram';
-export class FeedInformation {
-  currentFeed: Feed;
+import { FeedProgramUpdateFrequency } from '../enums/FeedSelect';
+import { TypesOfFeedProgram } from '../enums/FeedSelect';
+import { FeedDose } from './FeedDose';
+import { Feed } from './Feed';
+export interface FeedInformation {
+  currentFeed: Feed | null;
   totalWeight: number;
-  feedProgram: SingleDose[];
-  typeOfProgram: TypesOfFeedProgram;
-  doseUpdateFrequency?: FeedProgramUpdateFrequency;
-  defaultTemperature?: number;
-}
-
-export class Feed {
-  name: string;
-  size: string;
-  fcr: number;
-}
-export class SingleDose {
-  number: number;
-  weight: number;
-  date: string | null;
-  terminated: number;
-  weightGainAfterDose: number;
+  feedProgram: FeedDose[];
+  typeOfProgram: TypesOfFeedProgram | null;
+  doseUpdateFrequency: FeedProgramUpdateFrequency | null;
+  defaultTemperature: number | null;
 }

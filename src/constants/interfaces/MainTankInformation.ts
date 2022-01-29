@@ -1,10 +1,5 @@
-import { IsNumber, IsString } from 'class-validator';
-
-export class MainTankInformation {
-  @IsString()
+export interface MainTankInformation {
   name: string;
-  @IsNumber()
   volume: number;
-  @IsString()
   description?: string;
 }

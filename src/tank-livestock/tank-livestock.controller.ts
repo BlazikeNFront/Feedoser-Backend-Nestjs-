@@ -1,45 +1,26 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
 import { TankLivestockService } from './tank-livestock.service';
-import { CreateTankLivestockDto } from './dto/create-tank-livestock.dto';
-import { UpdateTankLivestockDto } from './dto/update-tank-livestock.dto';
+import { TankLivestockDto } from './dto/tank-livestock';
 
 @Controller('tank-livestock')
 export class TankLivestockController {
   constructor(private readonly tankLivestockService: TankLivestockService) {}
 
-  @Post()
-  create(@Body() createTankLivestockDto: CreateTankLivestockDto) {
-    return this.tankLivestockService.create(createTankLivestockDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.tankLivestockService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tankLivestockService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateTankLivestockDto: UpdateTankLivestockDto,
+  @Patch(':tankId')
+  create(
+    @Param('tankId') tankId: string,
+    @Body() createTankLivestockDto: TankLivestockDto,
   ) {
-    return this.tankLivestockService.update(+id, updateTankLivestockDto);
+    return this.tankLivestockService.update(createTankLivestockDto, tankId);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.tankLivestockService.remove(+id);
+  @Get(':tankId')
+  findOne(@Param('tankId') tankId: string) {
+    return this.tankLivestockService.findOne(tankId);
+  }
+
+  @Delete(':tankId')
+  remove(@Param('tankId') tankId: string) {
+    return this.tankLivestockService.remove(tankId);
   }
 }

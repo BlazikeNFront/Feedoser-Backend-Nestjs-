@@ -1,9 +1,9 @@
 export interface LivestockInformation {
-  livestock: SingleLivestockSpecie[];
+  livestock: SingleSpecie[];
   totalWeight: number;
 }
 
-export interface SingleLivestockSpecie {
+export interface SingleSpecie {
   name: string;
   weight: number;
   meanWeight: number;

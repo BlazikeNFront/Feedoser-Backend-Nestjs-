@@ -26,7 +26,7 @@ export class TankService {
     id: string,
     MainTankInformationDTO: Partial<MainTankInformationDTO>,
   ) {
-    await this.TankModel.findByIdAndUpdate(id, {
+    return await this.TankModel.findByIdAndUpdate(id, {
       $set: {
         'mainTankInformation.volume': MainTankInformationDTO.volume,
         'mainTankInformation.name': MainTankInformationDTO.name,

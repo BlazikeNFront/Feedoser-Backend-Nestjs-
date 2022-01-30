@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { TankModule } from './tank/tank.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TankLivestockModule } from './tank-livestock/tank-livestock.module';
+import { TankFeedInformationModule } from './tank-feed-information/tank-feed-information.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { TankLivestockModule } from './tank-livestock/tank-livestock.module';
     UserModule,
     TankModule,
     TankLivestockModule,
+    TankFeedInformationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -5,14 +5,15 @@ import { MainTankInformation } from 'src/constants/interfaces/MainTankInformatio
 import { TankAnnotation } from 'src/constants/interfaces/TankAnnotations';
 import { Document } from 'mongoose';
 import { MainTankInformationDTO } from '../dto/UpdateMainTankInformation.dto';
+
 @Schema()
 export class Tank extends Document {
   @Prop()
   userId: string;
   @Prop({ type: MainTankInformationDTO })
   mainTankInformation: MainTankInformation;
-  // @Prop()
-  // livestockInformation?: LivestockInformation;
+  @Prop({ type: MainTankInformationDTO })
+  livestockInformation: LivestockInformation;
   // @Prop()
   // feedInformation?: FeedInformation;
   // @Prop()

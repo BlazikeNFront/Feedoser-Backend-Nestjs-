@@ -11,7 +11,9 @@ describe('TankFeedInformationController', () => {
       providers: [TankFeedInformationService],
     }).compile();
 
-    controller = module.get<TankFeedInformationController>(TankFeedInformationController);
+    controller = module.get<TankFeedInformationController>(
+      TankFeedInformationController,
+    );
   });
 
   it('should be defined', () => {

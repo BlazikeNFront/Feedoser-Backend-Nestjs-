@@ -1,29 +1,56 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTankFeedInformationDto } from './dto/tank-feed-information.dto';
-import { UpdateTankFeedInformationDto } from './dto/update-tank-feed-information.dto';
-
+import { TankFeedInformationDto } from './dto/tank-feed-information.dto';
+import { Tank } from '../tank/entities/tank.entity';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 @Injectable()
 export class TankFeedInformationService {
-  create(createTankFeedInformationDto: CreateTankFeedInformationDto) {
-    return 'This action adds a new tankFeedInformation';
+  constructor(
+    @InjectModel(Tank.name)
+    private TankModel: Model<Tank>,
+  ) {}
+
+  async find(tankId: string) {
+    return await (
+      await this.TankModel.findOne({ tankId }).exec()
+    ).livestockInformation;
+  }
+  async update(tankId: string, TankFeedInformationDto: TankFeedInformationDto) {
+    if (
+      !(await (
+        await this.TankModel.findById(tankId).exec()
+      ).feedInformation)
+    ) {
+    }
+    return {
+      id: await (
+        await this.TankModel.findByIdAndUpdate(tankId, {
+          $set: {
+            'feedInformation.currentFeed': TankFeedInformationDto.currentFeed,
+            'feedInformation.usedFeedTotalWeight':
+              TankFeedInformationDto.usedFeedTotalWeight,
+            'feedInformation.feedProgram': TankFeedInformationDto.feedProgram,
+            'feedInformation.typeOfProgram':
+              TankFeedInformationDto.typeOfProgram,
+            'feedInformation.doseUpdateFrequency':
+              TankFeedInformationDto.doseUpdateFrequency,
+            'feedInformation.defaultTemperature':
+              TankFeedInformationDto.defaultTemperature,
+          },
+        }).exec()
+      )._id,
+    };
   }
 
-  findAll() {
-    return `This action returns all tankFeedInformation`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} tankFeedInformation`;
-  }
-
-  update(
-    id: number,
-    updateTankFeedInformationDto: UpdateTankFeedInformationDto,
-  ) {
-    return `This action updates a #${id} tankFeedInformation`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} tankFeedInformation`;
+  async remove(tankId: string) {
+    return {
+      id: await (
+        await this.TankModel.findByIdAndUpdate(tankId, {
+          $set: {
+            feedInformation: null,
+          },
+        }).exec()
+      )._id,
+    };
   }
 }

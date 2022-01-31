@@ -1,6 +1,6 @@
 export interface LivestockInformation {
   livestock: SingleSpecie[];
-  totalWeight: number;
+  totalLivestockWeight: number;
 }
 
 export interface SingleSpecie {

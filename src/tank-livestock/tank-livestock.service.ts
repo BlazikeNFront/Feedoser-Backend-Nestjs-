@@ -15,7 +15,8 @@ export class TankLivestockService {
         await this.TankModel.findByIdAndUpdate(tankId, {
           $set: {
             'livestockInformation.livestock': TankLivestockDto.livestock,
-            'livestockInformation.totalWeight': TankLivestockDto.totalWeight,
+            'livestockInformation.totalLivestockWeight':
+              TankLivestockDto.totalLivestockWeight,
           },
         }).exec()
       )._id,

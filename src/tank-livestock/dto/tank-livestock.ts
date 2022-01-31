@@ -9,5 +9,5 @@ export class TankLivestockDto implements LivestockInformation {
   @Type(() => SingleSpecieDto)
   livestock: SingleSpecieDto[];
   @IsPositive()
-  totalWeight: number;
+  totalLivestockWeight: number;
 }

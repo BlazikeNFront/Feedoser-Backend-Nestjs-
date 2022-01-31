@@ -7,7 +7,7 @@ export class TankLivestockController {
   constructor(private readonly tankLivestockService: TankLivestockService) {}
 
   @Patch(':tankId')
-  create(
+  update(
     @Param('tankId') tankId: string,
     @Body() createTankLivestockDto: TankLivestockDto,
   ) {

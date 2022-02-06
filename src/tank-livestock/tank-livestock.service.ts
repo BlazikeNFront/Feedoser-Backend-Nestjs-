@@ -10,6 +10,18 @@ export class TankLivestockService {
     private TankModel: Model<Tank>,
   ) {}
   async update(TankLivestockDto: TankLivestockDto, tankId: string) {
+    if (
+      !(await (
+        await this.TankModel.findById(tankId).exec()
+      ).livestockInformation)
+    ) {
+      await this.TankModel.findByIdAndUpdate(tankId, {
+        $set: {
+          livestockInformation: TankLivestockDto,
+        },
+      }).exec();
+      return tankId;
+    }
     return {
       id: await (
         await this.TankModel.findByIdAndUpdate(tankId, {

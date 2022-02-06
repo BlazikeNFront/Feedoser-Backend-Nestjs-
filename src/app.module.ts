@@ -7,6 +7,7 @@ import { TankModule } from './tank/tank.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TankLivestockModule } from './tank-livestock/tank-livestock.module';
 import { TankFeedInformationModule } from './tank-feed-information/tank-feed-information.module';
+import { TankAnnotationsModule } from './tank-annotations/tank-annotations.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { TankFeedInformationModule } from './tank-feed-information/tank-feed-inf
     TankModule,
     TankLivestockModule,
     TankFeedInformationModule,
+    TankAnnotationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

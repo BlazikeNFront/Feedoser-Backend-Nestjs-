@@ -2,7 +2,7 @@ import { FeedInformation } from 'src/constants/interfaces/FeedInformation';
 import { Feed } from 'src/constants/interfaces/Feed';
 import { FeedDose } from 'src/constants/interfaces/FeedDose';
 import { TypesOfFeedProgram } from 'src/constants/enums/FeedSelect';
-import { FeedProgramUpdateFrequency } from 'src/constants/enums/FeedSelect';
+
 import {
   IsEnum,
   IsOptional,
@@ -28,8 +28,8 @@ export class TankFeedInformationDto implements FeedInformation {
   @IsEnum(TypesOfFeedProgram)
   typeOfProgram: TypesOfFeedProgram | null;
   @IsOptional()
-  @IsEnum(FeedProgramUpdateFrequency)
-  doseUpdateFrequency: FeedProgramUpdateFrequency | null;
+  @IsPositive()
+  doseUpdateFrequency: number | null;
   @IsOptional()
   @IsPositive()
   defaultTemperature: number | null;

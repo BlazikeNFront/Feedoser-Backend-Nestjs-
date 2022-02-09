@@ -7,7 +7,7 @@ import hashPassword from 'src/utils/hashPassword';
 import { JwtPayload } from '../constants/interfaces/JwtPayload';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { AuthCredentialsDto } from './dto/AuthCredential.dto';
+import { AuthDto } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -33,29 +33,21 @@ export class UserService {
 
     return this.filter(user);
   }
-  async signIn(
-    authCredential: AuthCredentialsDto,
-    res: Response,
-  ): Promise<any> {
-    try {
-      const { username, password } = authCredential;
-      const user = await this.UserModel.findOne({
-        username,
-        password: hashPassword(password),
-      }).exec();
-      if (!user) throw new UnauthorizedException('Invalid login credentials');
-      const payload: JwtPayload = { username };
-      const token = await this.jwtService.sign(payload);
-      return res
-        .cookie('jwt', token, {
-          secure: false,
-          domain: 'localhost',
-          httpOnly: true,
-        })
-        .json({ ok: true });
-    } catch (e) {
-      return res.json({ error: e.message });
-    }
+  async signIn(authCredential: AuthDto, res: Response): Promise<any> {
+    const { username, password } = authCredential;
+    const user = await this.UserModel.findOne({
+      username,
+      password: hashPassword(password),
+    }).exec();
+    if (!user) throw new UnauthorizedException('Invalid login credentials');
+    const payload: JwtPayload = { username };
+    const token = await this.jwtService.sign(payload);
+    return res
+      .cookie('jwt', token, {
+        secure: false,
+        httpOnly: true,
+      })
+      .json({ ok: true });
   }
   findOne(id: number) {
     return `This action returns a #${id} user`;

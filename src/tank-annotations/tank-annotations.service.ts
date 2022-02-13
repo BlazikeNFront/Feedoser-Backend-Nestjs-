@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Tank } from 'src/tank/entities/tank.entity';
 import { Model } from 'mongoose';
 import { TankAnnotationDto } from './dto/tank-annotation.dto';
 import * as mongoose from 'mongoose';
+
 @Injectable()
 export class TankAnnotationsService {
   constructor(
@@ -36,15 +37,16 @@ export class TankAnnotationsService {
   }
   async update(
     tankId: string,
-    annotationId: string,
     updateTankAnnotationDto: Partial<TankAnnotationDto>,
   ) {
-    const { date, title, description, enviromentalData, isImportant } =
+    const { id, date, title, description, enviromentalData, isImportant } =
       updateTankAnnotationDto;
+    if (!id) throw new NotFoundException();
+
     return {
       id: await (
         await this.TankModel.findOneAndUpdate(
-          { tankId },
+          { _id: tankId },
           {
             $set: {
               'annotations.$[annotation].date': date,
@@ -57,7 +59,7 @@ export class TankAnnotationsService {
           {
             arrayFilters: [
               {
-                'annotation.id': annotationId,
+                'annotation.id': new mongoose.mongo.ObjectId(id),
               },
             ],
           },
@@ -66,12 +68,18 @@ export class TankAnnotationsService {
     };
   }
   async remove(tankId: string, annotationId: string) {
-    return await await this.TankModel.findByIdAndUpdate(
-      { tankId },
-      {
-        $pull: { annotations: { id: annotationId } },
-      },
-    ).exec();
+    return {
+      id: await (
+        await await this.TankModel.findByIdAndUpdate(
+          { _id: tankId },
+          {
+            $pull: {
+              annotations: { id: new mongoose.mongo.ObjectId(annotationId) },
+            },
+          },
+        ).exec()
+      )._id,
+    };
   }
   async removeAll(tankId: string) {
     return await await this.TankModel.findByIdAndUpdate(

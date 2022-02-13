@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/decorators/getUserId.decorator';
-import { CreateTankDto } from './dto/CreateTank.dto';
+import { TankDto } from './dto/Tank.dto';
 import { TankService } from './tank.service';
 import { MainTankInformationDTO } from './dto/UpdateMainTankInformation.dto';
 
@@ -20,11 +20,11 @@ export class TankController {
   constructor(private readonly tankService: TankService) {}
 
   @Post()
-  create(@Body() createTankDto: CreateTankDto, @GetUser() userId: string) {
+  create(@GetUser() userId: string, @Body() createTankDto: TankDto) {
     return this.tankService.create(userId, createTankDto);
   }
-  @Get(':id')
-  findOne(@Param('id') tankId: string) {
+  @Get(':_id')
+  findOne(@Param('_id') tankId: string) {
     return this.tankService.findOne(tankId);
   }
   @Get()

@@ -38,28 +38,23 @@ export class TankAnnotationsController {
     return this.tankAnnotationsService.findOne(tankId, annotationId);
   }
 
-  @Patch(':tankId/:annotationId')
+  @Patch(':tankId')
   update(
-    @Param(':tankId') tankId: string,
-    @Param(':annotationId') annotationId: string,
+    @Param('tankId') tankId: string,
     @Body() updateTankAnnotationDto: Partial<TankAnnotation>,
   ) {
-    return this.tankAnnotationsService.update(
-      tankId,
-      annotationId,
-      updateTankAnnotationDto,
-    );
+    return this.tankAnnotationsService.update(tankId, updateTankAnnotationDto);
   }
 
   @Delete(':tankId/:annotationId')
   remove(
-    @Param(':tankId') tankId: string,
-    @Param(':annotationId') annotationId: string,
+    @Param('tankId') tankId: string,
+    @Param('annotationId') annotationId: string,
   ) {
     return this.tankAnnotationsService.remove(tankId, annotationId);
   }
   @Delete(':tankId')
-  removeAll(@Param(':tankId') tankId: string) {
+  removeAll(@Param('tankId') tankId: string) {
     return this.tankAnnotationsService.removeAll(tankId);
   }
 }

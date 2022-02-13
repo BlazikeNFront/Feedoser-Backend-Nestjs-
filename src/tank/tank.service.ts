@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTankDto } from './dto/CreateTank.dto';
+import { TankDto } from './dto/Tank.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Tank } from './entities/tank.entity';
 import { Model } from 'mongoose';
 import { MainTankInformationDTO } from './dto/UpdateMainTankInformation.dto';
+import { identity } from 'rxjs';
 
 @Injectable()
 export class TankService {
@@ -11,7 +12,7 @@ export class TankService {
     @InjectModel(Tank.name)
     private TankModel: Model<Tank>,
   ) {}
-  async create(userId: string, createTankDto: CreateTankDto) {
+  async create(userId: string, createTankDto: TankDto) {
     const saveAction = await this.TankModel.create({
       userId,
       ...createTankDto,
@@ -19,8 +20,8 @@ export class TankService {
     return { id: saveAction._id };
   }
 
-  async findOne(id: string): Promise<Tank[]> {
-    return await this.TankModel.find({ id }).exec();
+  async findOne(_id: string): Promise<Tank> {
+    return await this.TankModel.findOne({ _id }).exec();
   }
   async update(
     id: string,

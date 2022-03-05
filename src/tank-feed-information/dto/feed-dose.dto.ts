@@ -1,16 +1,25 @@
-import { IsPositive, IsEnum, IsString, IsOptional } from 'class-validator';
+import {
+  IsEnum,
+  IsString,
+  IsOptional,
+  IsNumber,
+  IsPositive,
+} from 'class-validator';
 import { FeedDose } from 'src/constants/interfaces/FeedDose';
 import { DoseTermination } from 'src/constants/enums/DoseTermination';
 export class FeedDoseDto implements FeedDose {
-  @IsPositive()
+  @IsNumber()
   number: number;
-  @IsPositive()
+  @IsNumber()
   amount: number;
+  @IsNumber()
+  @IsPositive()
+  temperature: number;
   @IsString()
   @IsOptional()
   date: string | null;
   @IsEnum(DoseTermination)
   terminated: DoseTermination;
-  @IsPositive()
+  @IsNumber()
   weightGainAfterDose: number;
 }

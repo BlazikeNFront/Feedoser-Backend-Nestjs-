@@ -3,8 +3,7 @@ import { TankDto } from './dto/Tank.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Tank } from './entities/tank.entity';
 import { Model } from 'mongoose';
-import { MainTankInformationDTO } from './dto/UpdateMainTankInformation.dto';
-import { identity } from 'rxjs';
+import { MainTankInformationDTO } from './dto/MainTankInformation.dto';
 
 @Injectable()
 export class TankService {
@@ -15,9 +14,11 @@ export class TankService {
   async create(userId: string, createTankDto: TankDto) {
     const saveAction = await this.TankModel.create({
       userId,
-      ...createTankDto,
+      mainTankInformation: createTankDto.mainTankInformation,
+      livestockInformation: createTankDto.livestockInformation,
+      feedInformation: createTankDto.feedInformation,
     });
-    return { id: saveAction._id };
+    return { _id: saveAction._id };
   }
 
   async findOne(_id: string): Promise<Tank> {

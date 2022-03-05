@@ -12,7 +12,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/decorators/getUserId.decorator';
 import { TankDto } from './dto/Tank.dto';
 import { TankService } from './tank.service';
-import { MainTankInformationDTO } from './dto/UpdateMainTankInformation.dto';
+import { MainTankInformationDTO } from './dto/MainTankInformation.dto';
 
 @Controller('tanks')
 @UseGuards(AuthGuard('jwt'))
@@ -20,8 +20,8 @@ export class TankController {
   constructor(private readonly tankService: TankService) {}
 
   @Post()
-  create(@GetUser() userId: string, @Body() createTankDto: TankDto) {
-    return this.tankService.create(userId, createTankDto);
+  create(@GetUser() userId: string, @Body() tankDto: TankDto) {
+    return this.tankService.create(userId, tankDto);
   }
   @Get(':_id')
   findOne(@Param('_id') tankId: string) {

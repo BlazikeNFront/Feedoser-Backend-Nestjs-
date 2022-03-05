@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Response } from 'express';
 import { RegisteredUserResponse } from 'src/constants/interfaces/User';
@@ -47,7 +51,18 @@ export class UserService {
         secure: false,
         httpOnly: true,
       })
-      .json({ ok: true });
+      .json({ username });
+  }
+
+  async logout(userId: string, res: Response): Promise<any> {
+    const user = await this.UserModel.findById(userId).exec();
+    if (!user) throw new UnauthorizedException('Invalid login credentials');
+    return res
+      .cookie('jwt', '', {
+        secure: false,
+        httpOnly: true,
+      })
+      .json({ success: true, username: user.username });
   }
   findOne(id: number) {
     return `This action returns a #${id} user`;

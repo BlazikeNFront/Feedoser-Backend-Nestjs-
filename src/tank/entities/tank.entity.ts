@@ -4,8 +4,7 @@ import { LivestockInformation } from 'src/constants/interfaces/LiveStockInformat
 import { MainTankInformation } from 'src/constants/interfaces/MainTankInformation';
 import { TankAnnotation } from 'src/constants/interfaces/TankAnnotations';
 import { Document } from 'mongoose';
-import { MainTankInformationDTO } from '../dto/UpdateMainTankInformation.dto';
-
+import { MainTankInformationDTO } from '../dto/MainTankInformation.dto';
 import { TankLivestockDto } from 'src/tank-livestock/dto/tank-livestock';
 import { TankFeedInformationDto } from 'src/tank-feed-information/dto/tank-feed-information.dto';
 

@@ -1,4 +1,4 @@
-import { IsArray, IsPositive, ValidateNested } from 'class-validator';
+import { IsArray, IsNumber, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
 import { LivestockInformation } from 'src/constants/interfaces/LiveStockInformation';
@@ -8,6 +8,6 @@ export class TankLivestockDto implements LivestockInformation {
   @ValidateNested({ each: true })
   @Type(() => SingleSpecieDto)
   livestock: SingleSpecieDto[];
-  @IsPositive()
-  totalLivestockWeight: number;
+  @IsNumber()
+  initialLivestockWeight: number;
 }

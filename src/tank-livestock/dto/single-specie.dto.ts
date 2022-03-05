@@ -9,4 +9,6 @@ export class SingleSpecieDto implements SingleSpecie {
   weight: number;
   @IsPositive()
   meanWeight: number;
+  @IsPositive()
+  quantity: number;
 }

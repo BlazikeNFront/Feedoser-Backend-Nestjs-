@@ -15,22 +15,24 @@ import { FeedDoseDto } from './feed-dose.dto';
 
 export class TankFeedInformationDto implements FeedInformation {
   @IsOptional()
-  @ValidateNested()
+  @ValidateNested({ each: true })
   @Type(() => FeedDto)
-  currentFeed: Feed | null;
-  @IsPositive()
+  currentFeed: FeedDto | null;
   @IsOptional()
   usedFeedTotalWeight: number | null;
   @ValidateNested({ each: true })
   @Type(() => FeedDoseDto)
-  feedProgram: FeedDose[];
+  feedProgram: FeedDoseDto[];
   @IsOptional()
   @IsEnum(TypesOfFeedProgram)
   typeOfProgram: TypesOfFeedProgram | null;
-  @IsOptional()
   @IsPositive()
+  @IsOptional()
   doseUpdateFrequency: number | null;
-  @IsOptional()
   @IsPositive()
+  @IsOptional()
   defaultTemperature: number | null;
+  @IsPositive()
+  @IsOptional()
+  currentLivestockWeight: number | null;
 }

@@ -1,8 +1,15 @@
-import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Post,
+} from '@nestjs/common';
 import { TankFeedInformationService } from './tank-feed-information.service';
 import { TankFeedInformationDto } from './dto/tank-feed-information.dto';
-import { FeedDose } from 'src/constants/interfaces/FeedDose';
-import { DoseTerminationDto } from './dto/dose-termination.dto';
+import { FeedDoseDto } from './dto/feed-dose.dto';
 
 @Controller('tank-feed-information')
 export class TankFeedInformationController {
@@ -23,19 +30,30 @@ export class TankFeedInformationController {
     return this.tankFeedInformationService.update(id, TankFeedInformationDto);
   }
   @Patch(':tankId/add-feed-dose')
-  addFeedDose(@Param('tankId') id: string, @Body() FeedDoseDto: FeedDose) {
-    return this.tankFeedInformationService.updateFeedProgram(id, FeedDoseDto);
+  addFeedDose(@Param('tankId') id: string, @Body() feedDose: FeedDoseDto) {
+    return this.tankFeedInformationService.pushFeedDoseToFeedProgram(
+      id,
+      feedDose,
+    );
   }
-  @Patch(':tankId/terminate-dose/:doseIndex')
+  @Patch(':tankId/:doseIndex')
+  updateDose(
+    @Param('tankId') id: string,
+    @Param('doseIndex') doseIndex: number,
+    @Body() feedDose: Partial<FeedDoseDto>,
+  ) {
+    return this.tankFeedInformationService.updateDose(id, +doseIndex, feedDose);
+  }
+  @Patch(':tankId/:doseIndex/terminate')
   terminateDose(
     @Param('tankId') id: string,
     @Param('doseIndex') doseIndex: number,
-    @Body() DoseTerminationDto: DoseTerminationDto,
+    @Body() feedDoseDto: Partial<FeedDoseDto>,
   ) {
     return this.tankFeedInformationService.terminateDose(
       id,
       +doseIndex,
-      DoseTerminationDto,
+      feedDoseDto,
     );
   }
 

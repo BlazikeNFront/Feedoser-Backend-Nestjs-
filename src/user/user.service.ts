@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Response } from 'express';
 import { RegisteredUserResponse } from 'src/constants/interfaces/User';
@@ -18,8 +14,8 @@ dotenv.config();
 @Injectable()
 export class UserService {
   filter(user: User): RegisteredUserResponse {
-    const { username, email } = user;
-    return { username, email };
+    const { email } = user;
+    return { email };
   }
   constructor(
     @InjectModel(User.name)
@@ -27,31 +23,30 @@ export class UserService {
     private jwtService: JwtService,
   ) {}
   async create(createUserDto: CreateUserDto): Promise<RegisteredUserResponse> {
-    const { email, password, username } = createUserDto;
+    const { email, password } = createUserDto;
     const hashedPassword = hashPassword(password);
     const user = await this.UserModel.create({
       email,
-      username,
       password: hashedPassword,
     });
 
     return this.filter(user);
   }
   async signIn(authCredential: AuthDto, res: Response): Promise<any> {
-    const { username, password } = authCredential;
+    const { email, password } = authCredential;
     const user = await this.UserModel.findOne({
-      username,
+      email,
       password: hashPassword(password),
     }).exec();
     if (!user) throw new UnauthorizedException('Invalid login credentials');
-    const payload: JwtPayload = { username };
+    const payload: JwtPayload = { email };
     const token = await this.jwtService.sign(payload);
     return res
       .cookie('jwt', token, {
         secure: false,
         httpOnly: true,
       })
-      .json({ username });
+      .json({ email });
   }
 
   async logout(userId: string, res: Response): Promise<any> {
@@ -62,7 +57,7 @@ export class UserService {
         secure: false,
         httpOnly: true,
       })
-      .json({ success: true, username: user.username });
+      .json({ success: true, email: user.email });
   }
   findOne(id: number) {
     return `This action returns a #${id} user`;

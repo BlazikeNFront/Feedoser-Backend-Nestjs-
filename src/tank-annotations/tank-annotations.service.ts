@@ -12,6 +12,7 @@ export class TankAnnotationsService {
     private TankModel: Model<Tank>,
   ) {}
   async create(tankId, TankAnnotationDto: TankAnnotationDto) {
+    console.log(TankAnnotationDto);
     const annotationId = { id: new mongoose.mongo.ObjectId() };
     await this.TankModel.findByIdAndUpdate(tankId, {
       $push: {

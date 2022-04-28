@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Response } from 'express';
 import { RegisteredUserResponse } from 'src/constants/interfaces/User';
@@ -24,6 +28,13 @@ export class UserService {
   ) {}
   async create(createUserDto: CreateUserDto): Promise<RegisteredUserResponse> {
     const { email, password } = createUserDto;
+    if (
+      await this.UserModel.findOne({
+        email,
+      }).exec()
+    )
+      throw new ConflictException('User already exist');
+
     const hashedPassword = hashPassword(password);
     const user = await this.UserModel.create({
       email,

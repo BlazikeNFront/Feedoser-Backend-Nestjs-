@@ -11,7 +11,7 @@ import { TankAnnotationsService } from './tank-annotations.service';
 import { TankAnnotationDto } from './dto/tank-annotation.dto';
 import { TankAnnotation } from 'src/constants/interfaces/TankAnnotations';
 
-@Controller('tank-annotations')
+@Controller('tank-notes')
 export class TankAnnotationsController {
   constructor(
     private readonly tankAnnotationsService: TankAnnotationsService,

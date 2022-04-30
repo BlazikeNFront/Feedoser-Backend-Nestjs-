@@ -70,20 +70,18 @@ export class TankAnnotationsService {
   }
   async remove(tankId: string, annotationId: string) {
     return {
-      id: await (
-        await await this.TankModel.findByIdAndUpdate(
-          { _id: tankId },
-          {
-            $pull: {
-              annotations: { id: new mongoose.mongo.ObjectId(annotationId) },
-            },
+      id: await this.TankModel.findByIdAndUpdate(
+        { _id: tankId },
+        {
+          $pull: {
+            annotations: { id: new mongoose.mongo.ObjectId(annotationId) },
           },
-        ).exec()
-      )._id,
+        },
+      ).exec(),
     };
   }
   async removeAll(tankId: string) {
-    return await await this.TankModel.findByIdAndUpdate(
+    return await this.TankModel.findByIdAndUpdate(
       { tankId },
       {
         $set: { annotations: [] },

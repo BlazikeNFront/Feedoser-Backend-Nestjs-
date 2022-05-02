@@ -10,6 +10,7 @@ import {
 import { TankFeedInformationService } from './tank-feed-information.service';
 import { TankFeedInformationDto } from './dto/tank-feed-information.dto';
 import { FeedDoseDto } from './dto/feed-dose.dto';
+import { TerminateFeedDoseDto } from './dto/terminate-feed-dose.dto';
 
 @Controller('tank-feed-information')
 export class TankFeedInformationController {
@@ -29,11 +30,14 @@ export class TankFeedInformationController {
   ) {
     return this.tankFeedInformationService.update(id, TankFeedInformationDto);
   }
-  @Patch(':tankId/add-feed-dose')
-  addFeedDose(@Param('tankId') id: string, @Body() feedDose: FeedDoseDto) {
-    return this.tankFeedInformationService.pushFeedDoseToFeedProgram(
+  @Post(':tankId/add-feed-dose')
+  addFeedDose(
+    @Param('tankId') id: string,
+    @Body() terminateFeedDose: TerminateFeedDoseDto,
+  ) {
+    return this.tankFeedInformationService.terminateFeedDose(
       id,
-      feedDose,
+      terminateFeedDose,
     );
   }
   @Patch(':tankId/:doseIndex')
@@ -44,18 +48,18 @@ export class TankFeedInformationController {
   ) {
     return this.tankFeedInformationService.updateDose(id, +doseIndex, feedDose);
   }
-  @Patch(':tankId/:doseIndex/terminate')
-  terminateDose(
-    @Param('tankId') id: string,
-    @Param('doseIndex') doseIndex: number,
-    @Body() feedDoseDto: Partial<FeedDoseDto>,
-  ) {
-    return this.tankFeedInformationService.terminateDose(
-      id,
-      +doseIndex,
-      feedDoseDto,
-    );
-  }
+  // @Patch(':tankId/:doseIndex/terminate')
+  // terminateDose(
+  //   @Param('tankId') id: string,
+  //   @Param('doseIndex') doseIndex: number,
+  //   @Body() feedDoseDto: Partial<FeedDoseDto>,
+  // ) {
+  //   return this.tankFeedInformationService.terminateDose(
+  //     id,
+  //     +doseIndex,
+  //     feedDoseDto,
+  //   );
+  // }
 
   @Delete(':tankId')
   remove(@Param('tankId') id: string) {

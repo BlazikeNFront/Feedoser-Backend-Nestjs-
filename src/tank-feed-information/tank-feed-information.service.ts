@@ -5,6 +5,8 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { FeedDose } from 'src/constants/interfaces/FeedDose';
 import { FeedDoseDto } from './dto/feed-dose.dto';
+import { TerminateFeedDoseDto } from './dto/terminate-feed-dose.dto';
+import { DoseTermination } from 'src/constants/enums/DoseTermination';
 
 @Injectable()
 export class TankFeedInformationService {
@@ -53,17 +55,53 @@ export class TankFeedInformationService {
     };
   }
 
-  async pushFeedDoseToFeedProgram(tankId: string, FeedDoseDto: FeedDose) {
-    return {
-      id: await (
-        await this.TankModel.findByIdAndUpdate(tankId, {
-          $push: {
-            'feedInformation.feedProgram': FeedDoseDto,
+  async terminateFeedDose(
+    tankId: string,
+    terminatedFeedDose: TerminateFeedDoseDto,
+  ) {
+    const { feedDose, weightsData } = terminatedFeedDose;
+
+    if (feedDose.terminated === DoseTermination.DONE) {
+      const { weightGainAfterDose, amount } = feedDose;
+      const { currentLivestockWeight, usedFeedTotalWeight } = weightsData;
+
+      const updatedLivestockWeight =
+        Math.round(
+          (currentLivestockWeight + weightGainAfterDose + Number.EPSILON) * 100,
+        ) / 100;
+
+      const updatedFeedTotalWeight =
+        Math.round((usedFeedTotalWeight + amount + Number.EPSILON) * 100) / 100;
+
+      const id = await (
+        await this.TankModel.findOneAndUpdate(
+          { tankId },
+          {
+            $set: {
+              'feedInformation.currentLivestockWeight': updatedLivestockWeight,
+              'feedInformation.usedFeedTotalWeight': updatedFeedTotalWeight,
+            },
+            $push: {
+              'feedInformation.feedProgram': feedDose,
+            },
           },
-        }).exec()
-      )._id,
-    };
+        ).exec()
+      )._id;
+      return { id };
+    }
+    const id = await (
+      await this.TankModel.findOneAndUpdate(
+        { tankId },
+        {
+          $push: {
+            'feedInformation.feedProgram': feedDose,
+          },
+        },
+      ).exec()
+    )._id;
+    return { id };
   }
+
   async updateDose(
     tankId: string,
     doseNumber: number,
@@ -91,44 +129,43 @@ export class TankFeedInformationService {
       },
     ).exec();
   }
-  async terminateDose(
-    tankId: string,
-    doseNumber: number,
-    feedDoseDto: Partial<FeedDoseDto>,
-  ) {
-    const tankFeedInformation = await (
-      await this.updateDose(tankId, doseNumber, feedDoseDto)
-    ).feedInformation;
-    const { weightGainAfterDose, amount } = feedDoseDto;
-    if (tankFeedInformation) {
-      const { currentLivestockWeight, usedFeedTotalWeight } =
-        tankFeedInformation;
-      const updatedLivestockWeight =
-        Math.round(
-          (currentLivestockWeight +
-            weightGainAfterDose +
-            amount +
-            Number.EPSILON) *
-            100,
-        ) / 100;
+  // async terminateDose(
+  //   tankId: string,
+  //   doseNumber: number,
+  //   feedDoseDto: Partial<FeedDoseDto>,
+  // ) {
+  //   const tankFeedInformation = await (
+  //     await this.updateDose(tankId, doseNumber, feedDoseDto)
+  //   ).feedInformation;
+  //   const { weightGainAfterDose, amount } = feedDoseDto;
+  //   if (tankFeedInformation) {
+  //     const { currentLivestockWeight, usedFeedTotalWeight } =
+  //       tankFeedInformation;
+  //     const updatedLivestockWeight =
+  //       Math.round(
+  //         (currentLivestockWeight +
+  //           weightGainAfterDose +
+  //           amount +
+  //           Number.EPSILON) *
+  //           100,
+  //       ) / 100;
 
-      const updatedFeedTotalWeight =
-        Math.round((usedFeedTotalWeight + amount + Number.EPSILON) * 100) / 100;
-      console.log(updatedLivestockWeight, updatedFeedTotalWeight);
-      const id = await (
-        await this.TankModel.findOneAndUpdate(
-          { tankId },
-          {
-            $set: {
-              'feedInformation.currentLivestockWeight': updatedLivestockWeight,
-              'feedInformation.usedFeedTotalWeight': updatedFeedTotalWeight,
-            },
-          },
-        ).exec()
-      )._id;
-      return id;
-    }
-  }
+  //     const updatedFeedTotalWeight =
+  //       Math.round((usedFeedTotalWeight + amount + Number.EPSILON) * 100) / 100;
+  //     const id = await (
+  //       await this.TankModel.findOneAndUpdate(
+  //         { tankId },
+  //         {
+  //           $set: {
+  //             'feedInformation.currentLivestockWeight': updatedLivestockWeight,
+  //             'feedInformation.usedFeedTotalWeight': updatedFeedTotalWeight,
+  //           },
+  //         },
+  //       ).exec()
+  //     )._id;
+  //     return id;
+  //   }
+  // }
 
   async remove(tankId: string) {
     return {

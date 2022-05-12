@@ -8,6 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { TankLivestockModule } from './tank-livestock/tank-livestock.module';
 import { TankFeedInformationModule } from './tank-feed-information/tank-feed-information.module';
 import { TankAnnotationsModule } from './tank-annotations/tank-annotations.module';
+import { FeedsModule } from './feeds/feeds.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { TankAnnotationsModule } from './tank-annotations/tank-annotations.modul
     TankLivestockModule,
     TankFeedInformationModule,
     TankAnnotationsModule,
+    FeedsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

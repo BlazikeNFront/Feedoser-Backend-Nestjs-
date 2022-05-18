@@ -4,4 +4,6 @@ export enum FeedQuality {
   THIRD,
   FOURTH,
   FIFTH,
+  SIXTH,
+  SEVENTH,
 }

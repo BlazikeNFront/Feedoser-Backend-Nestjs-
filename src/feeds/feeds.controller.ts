@@ -1,9 +1,10 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param, Res } from '@nestjs/common';
+import { Species } from 'src/constants/enums/Species';
 import { FeedsService } from './feeds.service';
 // import { CreateFeedDto } from './dto/create-feed.dto';
 // import { UpdateFeedDto } from './dto/update-feed.dto';
 
-@Controller('feeds')
+@Controller('feedTables')
 export class FeedsController {
   constructor(private readonly feedsService: FeedsService) {}
 
@@ -12,16 +13,18 @@ export class FeedsController {
   //   return this.feedsService.create(createFeedDto);
   // }
 
-  @Get()
-  findAll() {
-    return this.feedsService.findAll();
+  @Get(':specie')
+  findOne(@Param('specie') specie: Species) {
+    return this.feedsService.findSpecieTables(specie);
   }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.feedsService.findOne(+id);
-  // }
-
+  @Get(':specie/:cartId/pdf')
+  getSpecieartInPdf(
+    @Param('specie') specie: Species,
+    @Param('cartId') cartId: string,
+    @Res() res: any,
+  ) {
+    return this.feedsService.getSpecieFeedCartInPdf(specie, cartId, res);
+  }
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateFeedDto: UpdateFeedDto) {
   //   return this.feedsService.update(+id, updateFeedDto);

@@ -18,7 +18,16 @@ export class FeedsService {
   create(createFeedDto: CreateFeedDto) {
     return 'This action adds a new feed';
   }
-
+  async findAllFeedTables() {
+    //currently it takes all documents in collection and Set function deletes dupliactes - it should operated with id-s on single feedTable and just have property of correct FeedTable name (fcr and specie related stuff / feed name size quailty will always be the same)
+    return [
+      ...new Set(
+        Array.from(await this.FeedTableModel.find().exec())
+          .map((feedTableEntity) => feedTableEntity.feedTables)
+          .flat(),
+      ),
+    ];
+  }
   async findSpecieTables(specie: Species) {
     return await this.FeedTableModel.findOne({ specie }).exec();
   }
@@ -39,12 +48,6 @@ export class FeedsService {
       throw new NotFoundException();
 
     try {
-      console.log(
-        path.join(
-          storageDir(),
-          `${STORAGE_FEED_TABLES_DIR_NAME}/${userLang}/${Species[specie]}/${fileName}`,
-        ),
-      );
       res.sendFile(fileName, {
         root: path.join(
           storageDir(),

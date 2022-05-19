@@ -1,4 +1,5 @@
 import { Controller, Get, Headers, Param, Res } from '@nestjs/common';
+import { get } from 'http';
 import { Species } from 'src/constants/enums/Species';
 import { FeedsService } from './feeds.service';
 // import { CreateFeedDto } from './dto/create-feed.dto';
@@ -12,7 +13,10 @@ export class FeedsController {
   // create(@Body() createFeedDto: CreateFeedDto) {
   //   return this.feedsService.create(createFeedDto);
   // }
-
+  @Get()
+  findAllFeeds() {
+    return this.feedsService.findAllFeedTables();
+  }
   @Get(':specie')
   findOne(@Param('specie') specie: Species) {
     return this.feedsService.findSpecieTables(specie);

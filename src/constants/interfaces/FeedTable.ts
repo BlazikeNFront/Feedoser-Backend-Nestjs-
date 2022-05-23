@@ -1,6 +1,5 @@
 export interface FeedTable {
-  feedName: string;
-  size: string;
-  quality: number;
-  fileName: string;
+  feedId: string;
+  fcrForSizes: Record<string, null | number>;
+  temperatureFeedDoses: Record<string, unknown>;
 }

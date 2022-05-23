@@ -1,15 +1,15 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Species } from 'src/constants/enums/Species';
-import { FeedTable } from 'src/constants/interfaces/FeedTable';
 import { Document } from 'mongoose';
+import { FeedQuality } from 'src/constants/enums/FeedQuality';
 
-@Schema({ collection: 'feedTables' })
-export class FeedTableEntity extends Document {
+@Schema({ collection: 'feeds' })
+export class FeedEntity extends Document {
   @Prop()
-  specie: Species;
+  name: string;
   @Prop()
-  feedTables: FeedTable[];
+  size: string;
+  quality: FeedQuality;
+  fileName: string;
 }
 
-export const FeedTableEntitySchema =
-  SchemaFactory.createForClass(FeedTableEntity);
+export const FeedEntitySchema = SchemaFactory.createForClass(FeedEntity);

@@ -1,11 +1,12 @@
 import { Controller, Get, Headers, Param, Res } from '@nestjs/common';
-import { get } from 'http';
 import { Species } from 'src/constants/enums/Species';
 import { FeedsService } from './feeds.service';
+
 // import { CreateFeedDto } from './dto/create-feed.dto';
 // import { UpdateFeedDto } from './dto/update-feed.dto';
+const FEED_TABLES_ENDPOINT = 'feedTables';
 
-@Controller('feedTables')
+@Controller('feeds')
 export class FeedsController {
   constructor(private readonly feedsService: FeedsService) {}
 
@@ -13,15 +14,19 @@ export class FeedsController {
   // create(@Body() createFeedDto: CreateFeedDto) {
   //   return this.feedsService.create(createFeedDto);
   // }
-  @Get()
-  findAllFeeds() {
+  @Get(':id')
+  findFeed(@Param('id') id: string) {
+    return this.feedsService.findFeed(id);
+  }
+  @Get(FEED_TABLES_ENDPOINT)
+  findAllFeedTables() {
     return this.feedsService.findAllFeedTables();
   }
-  @Get(':specie')
+  @Get(`${FEED_TABLES_ENDPOINT}/:specie`)
   findOne(@Param('specie') specie: Species) {
     return this.feedsService.findSpecieTables(specie);
   }
-  @Get(':specie/:fileName/')
+  @Get(`${FEED_TABLES_ENDPOINT}/:specie/:fileName`)
   getSpecieartInPdf(
     @Param('specie') specie: Species,
     @Param('fileName') fileName: string,

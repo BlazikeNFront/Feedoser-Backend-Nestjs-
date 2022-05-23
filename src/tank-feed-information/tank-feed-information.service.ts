@@ -37,7 +37,8 @@ export class TankFeedInformationService {
       id: await (
         await this.TankModel.findByIdAndUpdate(tankId, {
           $set: {
-            'feedInformation.currentFeed': TankFeedInformationDto.currentFeed,
+            'feedInformation.currentFeedId':
+              TankFeedInformationDto.currentFeedId,
             'feedInformation.usedFeedTotalWeight':
               TankFeedInformationDto.usedFeedTotalWeight,
             'feedInformation.feedProgram': TankFeedInformationDto.feedProgram,

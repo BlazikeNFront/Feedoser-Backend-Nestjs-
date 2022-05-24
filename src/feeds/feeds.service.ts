@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateFeedDto } from './dto/create-feed.dto';
 import { UpdateFeedDto } from './dto/update-feed.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -11,6 +15,7 @@ import { STORAGE_FEED_TABLES_DIR_NAME } from '../utils/paths';
 import { Species } from 'src/constants/enums/Species';
 import { FeedTable } from 'src/constants/interfaces/FeedTable';
 import * as path from 'path';
+import * as fs from 'fs';
 
 @Injectable()
 export class FeedsService {
@@ -50,26 +55,23 @@ export class FeedsService {
     userLang: string,
     res: any,
   ) {
-    // const feedTableForSpecie = await (
-    //   await this.findSpecieTables(specie)
-    // ).feedTables;
-    // if (
-    //   !feedTableForSpecie.find((table) => table.fileName === fileName) ||
-    //   !Object.values(Species).includes(specie)
-    // )
-    //   throw new NotFoundException();
-    // try {
-    //   res.sendFile(fileName, {
-    //     root: path.join(
-    //       storageDir(),
-    //       `${STORAGE_FEED_TABLES_DIR_NAME}/${userLang}/${Species[specie]}`,
-    //     ),
-    //   });
-    // } catch (error) {
-    //   res.status(error.status).json({
-    //     error: error.message,
-    //   });
-    // }
+    const folderUrl = path.join(
+      storageDir(),
+      `${STORAGE_FEED_TABLES_DIR_NAME}/${userLang}/${Species[specie]}`,
+    );
+    try {
+      if (fs.existsSync(`${folderUrl}//${fileName}`))
+        res.sendFile(fileName, {
+          root: folderUrl,
+        });
+      else throw new NotFoundException();
+    } catch (error) {
+      console.log(error);
+      res.status(error.status).json({
+        error: error.message,
+        status: error.status,
+      });
+    }
   }
 
   update(id: number, updateFeedDto: UpdateFeedDto) {

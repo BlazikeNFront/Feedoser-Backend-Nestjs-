@@ -1,7 +1,9 @@
-export enum Species {
-  RAINBOW_TROUT,
-  SALMON,
-  BROOK_TROUT,
-  BROWN_TROUT,
-  WHITEFISH,
-}
+export const Species = {
+  RAINBOW_TROUT: 'rainbowTrout',
+  // SALMON,
+  // BROOK_TROUT,
+  // BROWN_TROUT,
+  // WHITEFISH,
+} as const;
+export type SpeciesKeys = keyof typeof Species;
+export type SpeciesValues = typeof Species[SpeciesKeys];

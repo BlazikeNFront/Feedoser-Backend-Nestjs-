@@ -3,7 +3,6 @@ import { TankFeedInformationDto } from './dto/tank-feed-information.dto';
 import { Tank } from '../tank/entities/tank.entity';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { FeedDose } from 'src/constants/interfaces/FeedDose';
 import { FeedDoseDto } from './dto/feed-dose.dto';
 import { TerminateFeedDoseDto } from './dto/terminate-feed-dose.dto';
 import { DoseTermination } from 'src/constants/enums/DoseTermination';
@@ -37,8 +36,7 @@ export class TankFeedInformationService {
       id: await (
         await this.TankModel.findByIdAndUpdate(tankId, {
           $set: {
-            'feedInformation.currentFeedId':
-              TankFeedInformationDto.currentFeedId,
+            'feedInformation.currentFeed': TankFeedInformationDto.currentFeed,
             'feedInformation.usedFeedTotalWeight':
               TankFeedInformationDto.usedFeedTotalWeight,
             'feedInformation.feedProgram': TankFeedInformationDto.feedProgram,

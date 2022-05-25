@@ -1,7 +1,8 @@
 import { TypesOfFeedProgram } from '../enums/FeedSelect';
+import { Feed } from './Feed';
 import { FeedDose } from './FeedDose';
 export interface FeedInformation {
-  currentFeedId: string | null;
+  currentFeed: Feed | null;
   usedFeedTotalWeight: number | null;
   feedProgram: FeedDose[];
   typeOfProgram: TypesOfFeedProgram | null;

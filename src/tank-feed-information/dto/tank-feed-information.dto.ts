@@ -10,12 +10,13 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { FeedDoseDto } from './feed-dose.dto';
+import { Feed } from 'src/constants/interfaces/Feed';
+import { FeedDto } from 'src/feeds/dto/Feed.dto';
 
 export class TankFeedInformationDto implements FeedInformation {
   @IsOptional()
-  @ValidateNested({ each: true })
-  @IsString()
-  currentFeedId: string | null;
+  @Type(() => FeedDto)
+  currentFeed: Feed | null;
   @IsOptional()
   usedFeedTotalWeight: number | null;
   @ValidateNested({ each: true })

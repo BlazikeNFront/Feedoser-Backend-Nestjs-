@@ -45,6 +45,7 @@ export class UserService {
   }
   async signIn(authCredential: AuthDto, res: Response): Promise<any> {
     const { email, password } = authCredential;
+
     const user = await this.UserModel.findOne({
       email,
       password: hashPassword(password),

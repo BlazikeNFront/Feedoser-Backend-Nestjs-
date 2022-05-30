@@ -9,6 +9,7 @@ import { TankLivestockModule } from './tank-livestock/tank-livestock.module';
 import { TankFeedInformationModule } from './tank-feed-information/tank-feed-information.module';
 import { TankAnnotationsModule } from './tank-annotations/tank-annotations.module';
 import { FeedsModule } from './feeds/feeds.module';
+import { SpecieWeightBreakpointsModule } from './specie-weight-breakpoints/specie-weight-breakpoints.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { FeedsModule } from './feeds/feeds.module';
     TankFeedInformationModule,
     TankAnnotationsModule,
     FeedsModule,
+    SpecieWeightBreakpointsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

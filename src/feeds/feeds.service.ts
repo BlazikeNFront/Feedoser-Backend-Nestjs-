@@ -35,13 +35,14 @@ export class FeedsService {
     }).exec();
   }
   async findAllFeedTables() {
-    //currently it takes all documents in collection and Set function deletes dupliactes - it should operated with id-s on single feedTable and just have property of correct FeedTable name (fcr and specie related stuff / feed name size quailty will always be the same)
     return await this.FeedEntity.find().exec();
   }
   async findSpecieTables(specie: SpeciesValues) {
     return await this.FeedTableModel.findOne({
       specie,
-    }).exec();
+    })
+      .populate('feedTables.feedId')
+      .exec();
   }
   async getSpecieFeedCartInPdf(
     specie: SpeciesValues,

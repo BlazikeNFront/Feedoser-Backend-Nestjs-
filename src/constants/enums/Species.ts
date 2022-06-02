@@ -1,5 +1,6 @@
 export const Species = {
   RAINBOW_TROUT: 'rainbowTrout',
+  test: 'test',
   // SALMON,
   // BROOK_TROUT,
   // BROWN_TROUT,

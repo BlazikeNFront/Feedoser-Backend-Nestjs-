@@ -7,8 +7,8 @@ class WeightBreakpoint {
   feeds: FeedEntity[];
 }
 
-@Schema({ collection: 'speciesFeedBreakpoints' })
-export class SpeciesFeedBreakpoints extends mongoose.Document {
+@Schema({ collection: 'feedsForSpecie' })
+export class FeedsForSpecie extends mongoose.Document {
   @Prop()
   specie: SpeciesValues;
   @Prop(
@@ -22,6 +22,4 @@ export class SpeciesFeedBreakpoints extends mongoose.Document {
   weightBreakpoints: WeightBreakpoint[];
 }
 
-export const SpeciesFeedBreakpointsModel = SchemaFactory.createForClass(
-  SpeciesFeedBreakpoints,
-);
+export const FeedsForSpecieModel = SchemaFactory.createForClass(FeedsForSpecie);

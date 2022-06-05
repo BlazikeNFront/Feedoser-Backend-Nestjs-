@@ -1,6 +1,6 @@
-import { FeedEntity } from 'src/feeds/entities/feed.entity';
+import { FeedType } from 'src/feeds-type/entities/feedType.entity';
 export interface FeedTable {
-  feedId: FeedEntity;
+  feedId: FeedType;
   fcrForSizes: Record<string, number> | null;
   temperatureFeedDoses: Record<string, unknown>;
 }

@@ -5,18 +5,16 @@ import {
   IsEnum,
   IsOptional,
   IsPositive,
-  IsString,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { FeedDoseDto } from './feed-dose.dto';
-import { Feed } from 'src/constants/interfaces/Feed';
-import { FeedDto } from 'src/feeds/dto/Feed.dto';
+import { CurrentTankFeedDto } from './current-tank-feed.dto';
 
 export class TankFeedInformationDto implements FeedInformation {
   @IsOptional()
-  @Type(() => FeedDto)
-  currentFeed: Feed | null;
+  @Type(() => CurrentTankFeedDto)
+  currentFeed: CurrentTankFeedDto | null;
   @IsOptional()
   usedFeedTotalWeight: number | null;
   @ValidateNested({ each: true })

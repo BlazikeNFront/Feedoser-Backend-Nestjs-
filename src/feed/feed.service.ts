@@ -14,18 +14,24 @@ export class FeedService {
     return 'This action adds a new feed';
   }
 
-  findAll() {
-    return `This action returns all feed`;
+  async findAll() {
+    return await this.FeedEntity.find().populate('feedType').exec();
   }
 
   async findOne(id: string) {
     return await this.FeedEntity.findOne({
       id,
     })
-      .populate('feedId')
+      .populate('feedType')
       .exec();
   }
-
+  async findByFeedTypeId(id: string) {
+    return await this.FeedEntity.find({
+      feedType: id,
+    })
+      .populate('feedType')
+      .exec();
+  }
   update(id: number, updateFeedDto: UpdateFeedDto) {
     return `This action updates a #${id} feed`;
   }

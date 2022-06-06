@@ -22,7 +22,6 @@ export class FeedController {
 
   @Get()
   findAll() {
-    console.log('helo');
     return this.feedService.findAll();
   }
 
@@ -30,7 +29,10 @@ export class FeedController {
   findOne(@Param('id') id: string) {
     return this.feedService.findOne(id);
   }
-
+  @Get('feedType/:id')
+  findByFeedTypeId(@Param('id') feedTypeId: string) {
+    return this.feedService.findByFeedTypeId(feedTypeId);
+  }
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateFeedDto: UpdateFeedDto) {
     return this.feedService.update(+id, updateFeedDto);

@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { FeedsForSpecie } from './entities/feeds-for-specie.entity';
 import { Model } from 'mongoose';
 import { SpeciesValues } from 'src/constants/enums/Species';
+import { FeedType } from '../feeds-type/entities/feedType.entity';
 @Injectable()
 export class FeedsForSpecieService {
   constructor(
@@ -17,9 +18,15 @@ export class FeedsForSpecieService {
       .exec();
   }
 
-  findOne(specie: SpeciesValues) {
-    return this.SpeciesFeedBreakpointsModel.findOne({ specie })
-      .populate('weightBreakpoints.feeds')
+  async findOne(specie: SpeciesValues) {
+    return await this.SpeciesFeedBreakpointsModel.findOne({ specie })
+      .populate({
+        path: 'weightBreakpoints.feeds',
+        populate: {
+          path: 'feedType',
+          model: FeedType,
+        },
+      })
       .exec();
   }
 

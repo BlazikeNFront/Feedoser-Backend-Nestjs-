@@ -20,7 +20,7 @@ export class FeedsTypeService {
       _id: feedId,
     }).exec();
   }
-  async findAllFeeds() {
+  async findAll() {
     return await this.FeedType.find().exec();
   }
 

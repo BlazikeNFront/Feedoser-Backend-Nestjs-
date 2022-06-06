@@ -13,4 +13,8 @@ export class FeedsTypeController {
   findFeed(@Param('id') id: string) {
     return this.FeedsTypeService.findFeed(id);
   }
+  @Get()
+  findAll() {
+    return this.FeedsTypeService.findAll();
+  }
 }

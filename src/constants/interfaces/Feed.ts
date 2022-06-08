@@ -1,18 +1,6 @@
-import { FeedQuality } from '../enums/FeedQuality';
-export interface FeedType {
-  name: string;
-  size: string;
-  quality: FeedQuality;
-  fileName: string;
-}
-export interface Feed {
-  feedType: FeedType;
-  size: string;
-  minWeight: number | null;
-  maxWeight: number | null;
-  fcr: number;
-}
+import { FeedEntity } from 'src/feed/entities/feed.entity';
+
 export interface CurrentTankFeed {
-  feed: Feed;
+  feed: FeedEntity;
   isProposed: boolean;
 }

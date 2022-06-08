@@ -8,10 +8,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { TankLivestockModule } from './tank-livestock/tank-livestock.module';
 import { TankFeedInformationModule } from './tank-feed-information/tank-feed-information.module';
 import { TankAnnotationsModule } from './tank-annotations/tank-annotations.module';
-import { FeedsTypeModule } from './feeds-type/feeds-type.module';
-import { FeedsForSpecieModule } from './feeds-for-specie/feeds-for-specie.module';
-import { FeedTableModule } from './feed-table/feed-table.module';
+
+import { FeedTableModule } from './feed-tables/feed-table.module';
 import { FeedModule } from './feed/feed.module';
+import { FeedsForSpeciesModule } from './feeds-for-species/feeds-for-species.module';
 
 @Module({
   imports: [
@@ -22,10 +22,9 @@ import { FeedModule } from './feed/feed.module';
     TankLivestockModule,
     TankFeedInformationModule,
     TankAnnotationsModule,
-    FeedsTypeModule,
-    FeedsForSpecieModule,
     FeedTableModule,
     FeedModule,
+    FeedsForSpeciesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

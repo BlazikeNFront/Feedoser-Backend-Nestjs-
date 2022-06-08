@@ -1,22 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { FeedType } from 'src/feeds-type/entities/feedType.entity';
-import * as mongoose from 'mongoose';
-
+import { Document } from 'mongoose';
+import { SpeciesValues } from 'src/constants/enums/Species';
+import { FeedQuality } from 'src/constants/enums/FeedQuality';
 @Schema({ collection: 'feeds' })
-export class FeedEntity extends mongoose.Document {
-  @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'FeedType',
-  })
-  feedType: FeedType;
-  @Prop({ required: true })
-  size: string;
-  @Prop({ required: true })
-  minWeight: number;
-  @Prop({ required: true })
-  maxWeight: number;
-  @Prop({ required: true })
-  fcr: number;
+export class FeedEntity extends Document {
+  @Prop()
+  name: string;
+  @Prop()
+  sizes: string[];
+  @Prop()
+  speciesWithFeedTables: SpeciesValues[];
+  @Prop()
+  quality: FeedQuality;
+  @Prop()
+  fileName: string;
 }
 
 export const FeedEntitySchema = SchemaFactory.createForClass(FeedEntity);

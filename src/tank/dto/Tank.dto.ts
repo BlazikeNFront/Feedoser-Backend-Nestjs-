@@ -5,8 +5,6 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { FeedInformation } from 'src/constants/interfaces/FeedInformation';
-import { LivestockInformation } from 'src/constants/interfaces/LiveStockInformation';
 import { TankLivestockDto } from 'src/tank-livestock/dto/tank-livestock';
 import { MainTankInformationDTO } from './MainTankInformation.dto';
 import { TankAnnotation } from 'src/constants/interfaces/TankAnnotations';

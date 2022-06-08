@@ -1,11 +1,11 @@
-import { IsBoolean } from 'class-validator';
+import { IsBoolean, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
-import { CurrentTankFeed, Feed } from 'src/constants/interfaces/Feed';
-import { FeedDto } from 'src/feeds-type/dto/Feed.dto';
+import { CurrentTankFeed } from 'src/constants/interfaces/Feed';
+import { FeedEntity } from 'src/feed/entities/feed.entity';
 
 export class CurrentTankFeedDto implements CurrentTankFeed {
-  @Type(() => FeedDto)
-  feed: Feed;
+  @Type(() => FeedEntity)
+  feed: FeedEntity;
   @IsBoolean()
   isProposed: boolean;
 }

@@ -6,6 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { FeedDoseDto } from './dto/feed-dose.dto';
 import { TerminateFeedDoseDto } from './dto/terminate-feed-dose.dto';
 import { DoseTermination } from 'src/constants/enums/DoseTermination';
+import { CurrentTankFeedDto } from './dto/current-tank-feed.dto';
 
 @Injectable()
 export class TankFeedInformationService {
@@ -101,70 +102,17 @@ export class TankFeedInformationService {
     return { id };
   }
 
-  async updateDose(
-    tankId: string,
-    doseNumber: number,
-    feedDose: Partial<FeedDoseDto>,
-  ) {
-    const { number, amount, date, terminated, weightGainAfterDose } = feedDose;
-    return await await this.TankModel.findOneAndUpdate(
-      { tankId },
+  async updateCurrentTankFeed(tankId: string, newTankFeed: CurrentTankFeedDto) {
+    console.log(newTankFeed);
+    return await this.TankModel.findOneAndUpdate(
+      { _id: tankId },
       {
         $set: {
-          'feedInformation.feedProgram.$[feedDose].number': number,
-          'feedInformation.feedProgram.$[feedDose].amount': amount,
-          'feedInformation.feedProgram.$[feedDose].date': date,
-          'feedInformation.feedProgram.$[feedDose].terminated': terminated,
-          'feedInformation.feedProgram.$[feedDose].weightGainAfterDose':
-            weightGainAfterDose,
+          'feedInformation.currentFeed': newTankFeed,
         },
       },
-      {
-        arrayFilters: [
-          {
-            'feedDose.number': doseNumber,
-          },
-        ],
-      },
-    ).exec();
+    );
   }
-  // async terminateDose(
-  //   tankId: string,
-  //   doseNumber: number,
-  //   feedDoseDto: Partial<FeedDoseDto>,
-  // ) {
-  //   const tankFeedInformation = await (
-  //     await this.updateDose(tankId, doseNumber, feedDoseDto)
-  //   ).feedInformation;
-  //   const { weightGainAfterDose, amount } = feedDoseDto;
-  //   if (tankFeedInformation) {
-  //     const { currentLivestockWeight, usedFeedTotalWeight } =
-  //       tankFeedInformation;
-  //     const updatedLivestockWeight =
-  //       Math.round(
-  //         (currentLivestockWeight +
-  //           weightGainAfterDose +
-  //           amount +
-  //           Number.EPSILON) *
-  //           100,
-  //       ) / 100;
-
-  //     const updatedFeedTotalWeight =
-  //       Math.round((usedFeedTotalWeight + amount + Number.EPSILON) * 100) / 100;
-  //     const id = await (
-  //       await this.TankModel.findOneAndUpdate(
-  //         { tankId },
-  //         {
-  //           $set: {
-  //             'feedInformation.currentLivestockWeight': updatedLivestockWeight,
-  //             'feedInformation.usedFeedTotalWeight': updatedFeedTotalWeight,
-  //           },
-  //         },
-  //       ).exec()
-  //     )._id;
-  //     return id;
-  //   }
-  // }
 
   async remove(tankId: string) {
     return {

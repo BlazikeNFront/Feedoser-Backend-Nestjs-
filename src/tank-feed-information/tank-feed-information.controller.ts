@@ -11,6 +11,7 @@ import { TankFeedInformationService } from './tank-feed-information.service';
 import { TankFeedInformationDto } from './dto/tank-feed-information.dto';
 import { FeedDoseDto } from './dto/feed-dose.dto';
 import { TerminateFeedDoseDto } from './dto/terminate-feed-dose.dto';
+import { CurrentTankFeedDto } from './dto/current-tank-feed.dto';
 
 @Controller('tank-feed-information')
 export class TankFeedInformationController {
@@ -40,26 +41,18 @@ export class TankFeedInformationController {
       terminateFeedDose,
     );
   }
-  @Patch(':tankId/:doseIndex')
-  updateDose(
+
+  @Patch(':tankId/current-tank-feed')
+  updateCurrentTankFeed(
     @Param('tankId') id: string,
-    @Param('doseIndex') doseIndex: number,
-    @Body() feedDose: Partial<FeedDoseDto>,
+    @Body() newTankFeed: CurrentTankFeedDto,
   ) {
-    return this.tankFeedInformationService.updateDose(id, +doseIndex, feedDose);
+    console.log(newTankFeed);
+    return this.tankFeedInformationService.updateCurrentTankFeed(
+      id,
+      newTankFeed,
+    );
   }
-  // @Patch(':tankId/:doseIndex/terminate')
-  // terminateDose(
-  //   @Param('tankId') id: string,
-  //   @Param('doseIndex') doseIndex: number,
-  //   @Body() feedDoseDto: Partial<FeedDoseDto>,
-  // ) {
-  //   return this.tankFeedInformationService.terminateDose(
-  //     id,
-  //     +doseIndex,
-  //     feedDoseDto,
-  //   );
-  // }
 
   @Delete(':tankId')
   remove(@Param('tankId') id: string) {

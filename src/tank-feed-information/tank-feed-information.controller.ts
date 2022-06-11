@@ -47,7 +47,6 @@ export class TankFeedInformationController {
     @Param('tankId') id: string,
     @Body() newTankFeed: CurrentTankFeedDto,
   ) {
-    console.log(newTankFeed);
     return this.tankFeedInformationService.updateCurrentTankFeed(
       id,
       newTankFeed,

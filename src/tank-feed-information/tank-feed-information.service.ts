@@ -103,7 +103,6 @@ export class TankFeedInformationService {
   }
 
   async updateCurrentTankFeed(tankId: string, newTankFeed: CurrentTankFeedDto) {
-    console.log(newTankFeed);
     return await this.TankModel.findOneAndUpdate(
       { _id: tankId },
       {

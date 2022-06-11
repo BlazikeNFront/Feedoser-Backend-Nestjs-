@@ -16,6 +16,8 @@ import { CreateFeedDto } from 'src/feed/dto/create-feed.dto';
 import { Species } from 'src/constants/enums/Species';
 
 export class TankFeedForSpecieDto {
+  @IsString()
+  _id: string;
   @ValidateNested()
   @Type(() => CreateFeedDto)
   feed: CreateFeedDto;

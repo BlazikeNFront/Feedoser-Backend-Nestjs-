@@ -55,7 +55,8 @@ export class UserService {
     const token = await this.jwtService.sign(payload);
     return res
       .cookie('jwt', token, {
-        secure: false,
+        secure: true,
+        sameSite: 'none',
         httpOnly: true,
       })
       .json({ email });

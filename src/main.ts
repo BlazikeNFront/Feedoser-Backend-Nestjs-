@@ -5,11 +5,11 @@ import { UnauthorizedExceptionFilter } from './filters/Unauthorized-exception.fi
 import { GlobalExceptionFilter } from './filters/Global-exception.filters';
 
 import * as cookieParser from 'cookie-parser';
-
+console.log(process.env.NODE_ENV);
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: ['http://localhost:8080', 'http://192.168.0.12:8080'],
+    origin: [process.env.FRONTEND_URL],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     preflightContinue: false,

@@ -1,12 +1,4 @@
-import {
-  IsEnum,
-  IsString,
-  IsOptional,
-  IsNumber,
-  IsPositive,
-  Max,
-  Min,
-} from 'class-validator';
+import { IsEnum, IsString, IsNumber, IsPositive, Max } from 'class-validator';
 import { FeedDose } from 'src/constants/interfaces/FeedDose';
 import { DoseTermination } from 'src/constants/enums/DoseTermination';
 export class FeedDoseDto implements FeedDose {

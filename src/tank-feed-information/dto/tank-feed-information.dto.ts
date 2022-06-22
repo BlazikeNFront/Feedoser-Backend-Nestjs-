@@ -29,7 +29,4 @@ export class TankFeedInformationDto implements FeedInformation {
   @IsPositive()
   @IsOptional()
   defaultTemperature: number | null;
-  @IsPositive()
-  @IsOptional()
-  currentLivestockWeight: number | null;
 }

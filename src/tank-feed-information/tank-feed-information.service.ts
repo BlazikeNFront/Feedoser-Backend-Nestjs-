@@ -47,8 +47,6 @@ export class TankFeedInformationService {
               TankFeedInformationDto.doseUpdateFrequency,
             'feedInformation.defaultTemperature':
               TankFeedInformationDto.defaultTemperature,
-            'feedInformation.currentLivestockWeight':
-              TankFeedInformationDto.currentLivestockWeight,
           },
         }).exec()
       )._id,

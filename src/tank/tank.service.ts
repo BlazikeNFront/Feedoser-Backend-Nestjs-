@@ -11,7 +11,11 @@ export class TankService {
     @InjectModel(Tank.name)
     private TankModel: Model<Tank>,
   ) {}
+
   async create(userId: string, createTankDto: TankDto) {
+    createTankDto.livestockInformation.current = [
+      ...createTankDto.livestockInformation.initial,
+    ];
     const saveAction = await this.TankModel.create({
       userId,
       mainTankInformation: createTankDto.mainTankInformation,

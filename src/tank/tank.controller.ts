@@ -21,7 +21,6 @@ export class TankController {
 
   @Post()
   create(@GetUser() userId: string, @Body() tankDto: TankDto) {
-    console.log('hello');
     return this.tankService.create(userId, tankDto);
   }
   @Get(':_id')

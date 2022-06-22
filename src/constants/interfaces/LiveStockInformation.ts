@@ -1,7 +1,7 @@
 import { SpeciesValues } from '../enums/Species';
 export interface LivestockInformation {
-  livestock: SingleSpecie[];
-  initialLivestockWeight: number;
+  initial: SingleSpecie[];
+  current: SingleSpecie[];
 }
 
 export interface SingleSpecie {

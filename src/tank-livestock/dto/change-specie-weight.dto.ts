@@ -1,10 +1,4 @@
-import {
-  IsObject,
-  IsString,
-  MaxLength,
-  MinLength,
-  ValidateNested,
-} from 'class-validator';
+import { IsObject, IsString, MaxLength, MinLength } from 'class-validator';
 
 import { Type } from 'class-transformer';
 import { ChangeSpecieWeight } from '../../constants/interfaces/ChangeSpecieWeight';

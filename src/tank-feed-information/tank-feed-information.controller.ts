@@ -10,7 +10,6 @@ import {
 import { TankFeedInformationService } from './tank-feed-information.service';
 import { TankFeedInformationDto } from './dto/tank-feed-information.dto';
 import { FeedDoseDto } from './dto/feed-dose.dto';
-import { TerminateFeedDoseDto } from './dto/terminate-feed-dose.dto';
 import { CurrentTankFeedDto } from './dto/current-tank-feed.dto';
 
 @Controller('tank-feed-information')
@@ -34,7 +33,7 @@ export class TankFeedInformationController {
   @Post(':tankId/add-feed-dose')
   addFeedDose(
     @Param('tankId') id: string,
-    @Body() terminateFeedDose: TerminateFeedDoseDto,
+    @Body() terminateFeedDose: FeedDoseDto,
   ) {
     return this.tankFeedInformationService.terminateFeedDose(
       id,

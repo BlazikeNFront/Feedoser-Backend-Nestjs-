@@ -3,6 +3,7 @@ import { TankLivestockDto } from './dto/tank-livestock';
 import { InjectModel } from '@nestjs/mongoose';
 import { Tank } from '../tank/entities/tank.entity';
 import { Model } from 'mongoose';
+import { ChangeSpecieWeightDto } from './dto/change-specie-weight.dto';
 @Injectable()
 export class TankLivestockService {
   constructor(
@@ -50,5 +51,30 @@ export class TankLivestockService {
         }).exec()
       )._id,
     };
+  }
+  async updateCurrentLivestock(
+    tankId: string,
+    ChangeSpecieWeight: ChangeSpecieWeightDto,
+  ) {
+    return await (
+      await this.TankModel.findByIdAndUpdate(
+        tankId,
+        {
+          $set: {
+            'livestockInformation.current.$[specie]': ChangeSpecieWeight.after,
+          },
+          $push: {
+            'livestockInformation.changes': ChangeSpecieWeight,
+          },
+        },
+        {
+          arrayFilters: [
+            {
+              'specie.specie': ChangeSpecieWeight.after.specie,
+            },
+          ],
+        },
+      ).exec()
+    )._id;
   }
 }

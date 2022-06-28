@@ -19,4 +19,6 @@ export class FeedDoseDto implements FeedDose {
   @IsNumber()
   @IsPositive()
   weightGainAfterDose: number;
+  @IsString()
+  specie: string;
 }

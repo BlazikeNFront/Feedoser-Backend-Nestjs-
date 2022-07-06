@@ -15,9 +15,14 @@ async function bootstrap() {
     preflightContinue: false,
     optionsSuccessStatus: 204,
   });
+  app.useGlobalFilters(
+    new UnauthorizedExceptionFilter(),
+    // new GlobalExceptionFilter(),
+  );
   app.useGlobalPipes(
     new ValidationPipe({
       disableErrorMessages: false,
+      enableDebugMessages: true,
       whitelist: true,
       forbidNonWhitelisted: false,
       transform: true,
@@ -27,10 +32,6 @@ async function bootstrap() {
     }),
   );
   app.use(cookieParser());
-  app.useGlobalFilters(
-    new UnauthorizedExceptionFilter(),
-    new GlobalExceptionFilter(),
-  );
 
   await app.listen(process.env.PORT || 3000);
 }

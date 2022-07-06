@@ -1,4 +1,5 @@
 import {
+  IsArray,
   IsObject,
   IsOptional,
   IsString,
@@ -10,6 +11,7 @@ import { MainTankInformationDTO } from './MainTankInformation.dto';
 import { TankAnnotation } from 'src/constants/interfaces/TankAnnotations';
 import { TankAnnotationDto } from 'src/tank-annotations/dto/tank-annotation.dto';
 import { TankFeedInformationDto } from 'src/tank-feed-information/dto/tank-feed-information.dto';
+import { Tank } from 'src/constants/interfaces/Tank';
 export class TankDto {
   @IsOptional()
   @IsString()
@@ -28,4 +30,6 @@ export class TankDto {
   @ValidateNested()
   @Type(() => TankAnnotationDto)
   annotations: TankAnnotation[];
+  @IsArray()
+  history: Pick<Tank, 'livestockInformation' | 'feedInformation'>[];
 }

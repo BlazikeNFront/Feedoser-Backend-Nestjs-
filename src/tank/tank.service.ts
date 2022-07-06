@@ -21,6 +21,7 @@ export class TankService {
       mainTankInformation: createTankDto.mainTankInformation,
       livestockInformation: createTankDto.livestockInformation,
       feedInformation: createTankDto.feedInformation,
+      history: createTankDto.history,
     });
     return { _id: saveAction._id };
   }

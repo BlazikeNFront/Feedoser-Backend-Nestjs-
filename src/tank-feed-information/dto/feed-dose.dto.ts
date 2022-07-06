@@ -1,4 +1,12 @@
-import { IsEnum, IsString, IsNumber, IsPositive, Max } from 'class-validator';
+import {
+  IsEnum,
+  IsString,
+  IsNumber,
+  IsPositive,
+  Max,
+  ValidateIf,
+  Min,
+} from 'class-validator';
 import { FeedDose } from 'src/constants/interfaces/FeedDose';
 import { DoseTermination } from 'src/constants/enums/DoseTermination';
 export class FeedDoseDto implements FeedDose {
@@ -6,19 +14,22 @@ export class FeedDoseDto implements FeedDose {
   @IsPositive()
   number: number;
   @IsNumber()
-  @IsPositive()
+  @Min(0)
   amount: number;
   @IsNumber()
   @IsPositive()
   @Max(50)
+  @ValidateIf((_, value) => value !== null)
   temperature: number;
   @IsString()
   date: string;
   @IsEnum(DoseTermination)
   terminated: DoseTermination;
   @IsNumber()
-  @IsPositive()
+  @Min(0)
   weightGainAfterDose: number;
   @IsString()
   specie: string;
+  @IsPositive()
+  currentCycleDoseNumber: number;
 }

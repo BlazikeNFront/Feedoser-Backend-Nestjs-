@@ -8,4 +8,5 @@ export interface Tank {
   livestockInformation: LivestockInformation | null;
   feedInformation: FeedInformation | null;
   annotations: TankAnnotation[];
+  history: Pick<Tank, 'livestockInformation' | 'feedInformation'>[];
 }

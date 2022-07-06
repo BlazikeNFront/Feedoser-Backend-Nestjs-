@@ -7,6 +7,7 @@ import { FeedDoseDto } from './dto/feed-dose.dto';
 import { DoseTermination } from 'src/constants/enums/DoseTermination';
 import { CurrentTankFeedDto } from './dto/current-tank-feed.dto';
 import { roundTo2Decimals } from '../helpers/numberOperations';
+import { EndFeedProgramDto } from './dto/EndFeedProgram.dto';
 @Injectable()
 export class TankFeedInformationService {
   constructor(
@@ -104,6 +105,23 @@ export class TankFeedInformationService {
         await this.TankModel.findByIdAndUpdate(tankId, {
           $set: {
             feedInformation: null,
+          },
+        }).exec()
+      )._id,
+    };
+  }
+  async endFeedProgram(tankId: string, tankData: EndFeedProgramDto) {
+    return {
+      id: await (
+        await this.TankModel.findByIdAndUpdate(tankId, {
+          $set: {
+            feedInformation: null,
+            'livestockInformation.current': [],
+            'livestockInformation.initial': [],
+            'livestockInformation.changes': [],
+          },
+          $push: {
+            history: tankData,
           },
         }).exec()
       )._id,

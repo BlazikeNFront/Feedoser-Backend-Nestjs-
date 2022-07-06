@@ -6,4 +6,5 @@ export interface FeedDose {
   temperature: number;
   terminated: DoseTermination;
   weightGainAfterDose: number;
+  currentCycleDoseNumber: number;
 }

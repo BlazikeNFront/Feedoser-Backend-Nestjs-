@@ -11,6 +11,8 @@ import { TankFeedInformationService } from './tank-feed-information.service';
 import { TankFeedInformationDto } from './dto/tank-feed-information.dto';
 import { FeedDoseDto } from './dto/feed-dose.dto';
 import { CurrentTankFeedDto } from './dto/current-tank-feed.dto';
+import { EndFeedProgramDto } from './dto/EndFeedProgram.dto';
+import { Tank } from 'src/constants/interfaces/Tank';
 
 @Controller('tank-feed-information')
 export class TankFeedInformationController {
@@ -55,5 +57,12 @@ export class TankFeedInformationController {
   @Delete(':tankId')
   remove(@Param('tankId') id: string) {
     return this.tankFeedInformationService.remove(id);
+  }
+  @Patch('end-feed-program/:tankId')
+  endTankFeedProgram(
+    @Param('tankId') tankId: string,
+    @Body() tankData: EndFeedProgramDto,
+  ) {
+    return this.tankFeedInformationService.endFeedProgram(tankId, tankData);
   }
 }

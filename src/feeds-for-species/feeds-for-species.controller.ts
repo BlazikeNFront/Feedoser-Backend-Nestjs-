@@ -12,7 +12,7 @@ export class FeedsForSpeciesController {
     return this.feedsForSpeciesService.findAll();
   }
 
-  @Get('specie/:specie')
+  @Get('/:specie')
   findSpecieFeeds(@Param('specie') specie: SpeciesValues) {
     return this.feedsForSpeciesService.findAllSpecieFeeds(specie);
   }

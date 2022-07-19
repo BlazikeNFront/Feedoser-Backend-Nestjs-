@@ -23,12 +23,11 @@ export class TankLivestockController {
   remove(@Param('tankId') tankId: string) {
     return this.tankLivestockService.remove(tankId);
   }
-  @Patch('/currentLivestock/:tankId')
+  @Patch('/current-livestock/:tankId')
   updateCurrentLivesstock(
     @Param('tankId') tankId: string,
     @Body() ChangeSpecieWeight: ChangeSpecieWeightDto,
   ) {
-    console.log(ChangeSpecieWeight);
     return this.tankLivestockService.updateCurrentLivestock(
       tankId,
       ChangeSpecieWeight,

@@ -1,9 +1,9 @@
 export const Species = {
   RAINBOW_TROUT: 'rainbowTrout',
-  // SALMON,
-  // BROOK_TROUT,
-  // BROWN_TROUT,
-  // WHITEFISH,
+  SALMON: 'salmon',
+  BROOK_TROUT: 'brookTrout',
+  WHITEFISH: 'whitefish',
+  STURGEON: 'sturgeon',
 } as const;
 export type SpeciesKeys = keyof typeof Species;
 export type SpeciesValues = typeof Species[SpeciesKeys];

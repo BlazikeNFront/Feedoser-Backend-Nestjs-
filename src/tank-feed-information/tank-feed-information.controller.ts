@@ -32,7 +32,7 @@ export class TankFeedInformationController {
   ) {
     return this.tankFeedInformationService.update(id, TankFeedInformationDto);
   }
-  @Post(':tankId/add-feed-dose')
+  @Post('feedProgram/:tankId')
   addFeedDose(
     @Param('tankId') id: string,
     @Body() terminateFeedDose: FeedDoseDto,
@@ -43,7 +43,7 @@ export class TankFeedInformationController {
     );
   }
 
-  @Patch(':tankId/current-tank-feed')
+  @Patch('current-tank-feed/:tankId')
   updateCurrentTankFeed(
     @Param('tankId') id: string,
     @Body() newTankFeed: CurrentTankFeedDto,

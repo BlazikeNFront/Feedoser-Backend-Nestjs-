@@ -2,8 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { UnauthorizedExceptionFilter } from './filters/Unauthorized-exception.filters';
-import { GlobalExceptionFilter } from './filters/Global-exception.filters';
-
 import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
